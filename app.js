@@ -37,24 +37,17 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'public/css')));
 app.use(express.static(path.join(__dirname,'public/js')));
+app.use(express.static(path.join(__dirname,'public/photos')));
 
 
 require('./models/user');
 require('./models/post');
+require('./models/conversation');
 app.use(require('./routes/auth'));
 app.use(require('./routes/user'));
 app.use(require('./routes/post'));
+app.use(require('./routes/conversation'));
 
-app.get('/signup',function(req,res){
-    
-    res.render('signup.ejs',{message:req.flash('message')});
-
-});
-app.get('/',function(req,res){
-    
-    res.render('signin.ejs',{message:req.flash('message')});
-
-});
 
 
 

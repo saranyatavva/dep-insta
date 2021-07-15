@@ -50,10 +50,16 @@
 
       .btn-ig:hover,
       .btn-ig:focus {
+        outline: none !important;
+        box-shadow: none !important;
         background-color: transparent !important;
         color: #007bff !important;
       }
-
+      .btn:hover,
+      .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
       .profile-info {
         font-size: 14px;
       }

@@ -22,7 +22,7 @@ router.post('/createpost',requireLogin,(req,res)=>{
     })
     post.save().then(result=>{
         
-        console.log(post);
+        req.flash('message','Posted successfully'),
         res.redirect('/allpost');
     })
     .catch(err=>{
@@ -46,7 +46,6 @@ router.get('/allpost',requireLogin,(req,res)=>{
     .populate("comments.postedBy","_id name")
     .sort('-createdAt')
     .then((posts)=>{
-       console.log(posts);
         res.render('home.ejs',{message:req.flash('message'),posts:posts});
     }).catch(err=>{
         console.log(err)
@@ -56,17 +55,16 @@ router.get('/allpost',requireLogin,(req,res)=>{
 
 router.get('/mypost',requireLogin,(req,res)=>{
     Post.find({postedBy:req.user._id})
-    .populate("PostedBy","_id name")
+    .populate("postedBy","_id name")
     .then(mypost=>{
-        console.log( mypost[1].postedBy.name );
         res.render('myprofile.ejs',{message:req.flash('message'),mypost:mypost});
     })
     .catch(err=>{
         console.log(err)
     })
 })
-router.put('/like',requireLogin,(req,res)=>{
-    Post.findByIdAndUpdate(req.body.postId,{
+router.post('/like',requireLogin,(req,res)=>{
+    Post.findByIdAndUpdate(req.body.id,{
         $push:{likes:req.user._id}
     },{
         new:true
@@ -74,7 +72,8 @@ router.put('/like',requireLogin,(req,res)=>{
         if(err){
             return res.status(422).json({error:err})
         }else{
-            res.json(result)
+            req.flash('message','Liked successfully'),
+            res.redirect("/allpost");
         }
     })
 })
@@ -87,19 +86,21 @@ router.put('/unlike',requireLogin,(req,res)=>{
         if(err){
             return res.status(422).json({error:err})
         }else{
-            res.json(result)
+            req.flash('message','Liked successfully'),
+            res.redirect("/allpost");
         }
     })
 })
 
 
-router.put('/comment',requireLogin,(req,res)=>{
+router.post('/comment',requireLogin,(req,res)=>{
     const comment = {
         text:req.body.text,
         postedBy:req.user._id
     }
-    Post.findByIdAndUpdate(req.body.postId,{
-        $push:{comments:comment}
+ 
+    Post.findByIdAndUpdate(req.body.idd,{
+        $push:{comments:comment},
     },{
         new:true
     })
@@ -109,13 +110,15 @@ router.put('/comment',requireLogin,(req,res)=>{
         if(err){
             return res.status(422).json({error:err})
         }else{
-            res.json(result)
+            req.flash('message','Commented successfully'),
+            res.redirect("/allpost");
         }
     })
 })
 
-router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
-    Post.findOne({_id:req.params.postId})
+router.post('/deletepost',requireLogin,(req,res)=>{
+    console.log(req.body);
+    Post.findOne({_id:req.body.postId})
     .populate("postedBy","_id")
     .exec((err,post)=>{
         if(err || !post){

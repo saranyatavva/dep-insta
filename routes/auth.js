@@ -12,6 +12,16 @@ const { request, response } = require('express');
 //     res.send("hello user")
 // })
 
+router.get('/signup',function(req,res){
+    
+    res.render('signup.ejs',{message:req.flash('message')});
+
+});
+router.get('/',function(req,res){
+    
+    res.render('signin.ejs',{message:req.flash('message')});
+
+});
 
 
 router.post('/signup',(req, res) => {

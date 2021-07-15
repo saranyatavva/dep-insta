@@ -16,7 +16,7 @@
     ></script>
    
     <link rel="stylesheet" href="navbar.css" type="text/css" />
-
+    <link rel="icon" href="favicon.png" type="image/png">
     <title>Instagram</title>
   </head>
   <body>
@@ -55,7 +55,7 @@
             <div class="d-flex flex-row">
               <ul class="list-inline m-0">
                 <li class="list-inline-item">
-                  <a href="#" class="link-menu">
+                  <a href="/allpost" class="link-menu">
                     <svg
                       width="1.5em"
                       height="1.5em"
@@ -111,7 +111,7 @@
                   </a>
                 </li>
                 <li class="list-inline-item ml-2">
-                  <a href="/logout" class="link-menu">
+                  <a href="" class="link-menu">
                     <svg
                       width="1.5em"
                       height="1.5em"
@@ -127,48 +127,15 @@
                     </svg>
                   </a>
                 </li>
-                <li class="list-inline-item ml-2 align-middle">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      role="button"
-                      id="dropdownMenuLink"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <div
-                        class="
-                          rounded-circle
-                          overflow-hidden
-                          d-flex
-                          justify-content-center
-                          align-items-center
-                          border
-                          topbar-profile-photo
-                        "
-                      >
-                        <img
-                          src="https://images.unsplash.com/photo-1517677129300-07b130802f46?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGdpcmx8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                          alt=""
-                          style="
-                            /* transform: scale(1.5); */
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            left: 0;
-                          "
-                        />
-                      </div>
-                    </a>
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuLink"
-                    >
-                      <li><a class="dropdown-item" href="#">Profile</a></li>
-                      <li><a class="dropdown-item" href="#">Settings</a></li>
-                      <li><hr class="dropdown-divider" /></li>
-                      <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
+                <li class="nav-item dropdown list-inline-item align-middle">
+                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGdpcmx8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" width="28" height="28" class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/mypost">My Profile</a>
+                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    <a href=""><hr class="dropdown-divider"></a>
+                    <a class="dropdown-item" href="/logout">Log Out</a>
                   </div>
                 </li>
               </ul>
