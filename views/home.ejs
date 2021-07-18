@@ -72,13 +72,12 @@
                                    
 
 
-                                    <form onclick="deletee(this);" method="post" action="/deletepost">
+                                    <form method="post" action="/deletepost/<%= p._id%>">
                                     <button type="submit" class="btn p-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16" style="margin-left:340px;color:black;">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
 
                                       </svg></button> 
-                                      <input type="hidden" value="<%= p._id %>" id="postId">
                                       </form>
                                       
                                 </div>
@@ -139,7 +138,7 @@
                                         <p class="d-block mb-1"><strong class="d-inline"><%= record.postedBy.name %></strong>    <%= record.text %></p>
                                         
                                     <% }); %>
-                                    <p class="fs-6 fw-light text-muted">1 DAY AGO</p>
+                                    <p class="fs-6 fw-light text-muted"><%= p.createdAt %></p>
                                     
                                 </div>
                                
@@ -169,8 +168,8 @@
                                 style="transform: scale(1.5); width: 100%; position: absolute; left: 0;">
                         </div>
                         <div class="profile-info ml-3">
-                            <a href="/mypost" style="color:#212529"><span class="profile-info-username">akhila.priya_</span></a>
-                            <span class="profile-info-name">Akhila</span>
+                            <a href="/mypost" style="color:#212529"><span class="profile-info-username"><%= user.name%>._</span></a>
+                            <span class="profile-info-name"><%= user.name%></span>
                         </div>
                         
                         <button class="btn btn-primary btn-sm p-0 btn-ig ml-2" data-toggle="modal" data-target="#exampleModal">Create post</button>
@@ -261,7 +260,7 @@ function deletee(form) {
         dataType: 'json',
         type: 'POST',
         contentType: 'application/json',
-        data:JSON.stringify({postId:form.postId.value}),
+        data:{postId:form.postId.value},
         success: function (result) {
            console.log(result)
         }

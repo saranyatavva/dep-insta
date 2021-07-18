@@ -1,15 +1,13 @@
-body {
-  background-image: url('https://images.unsplash.com/photo-1560568082-c15188aa6510?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80');
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+
 .container {
-  margin: 60px auto;
   background: #fff;
   padding: 0;
   border-radius: 7px;
 }
+@media (min-width: 992px){
+.container, .container-lg, .container-md, .container-sm {
+    max-width: 1540px;
+}}
 .profile-image {
   width: 50px;
   height: 50px;
@@ -148,6 +146,7 @@ hr {
   align-items: center;
   margin-top: 19px;
   bottom: 0;
+  
 }
 .chat-box-tray input {
   margin: 0 10px;

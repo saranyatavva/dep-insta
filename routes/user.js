@@ -6,7 +6,7 @@ const Post =  mongoose.model("Post")
 const User = mongoose.model("User")
 
 
-router.get('/user/:id',requireLogin,(req,res)=>{
+router.get('/:id',requireLogin,(req,res)=>{
     User.findOne({_id:req.params.id})
     .select("-password")
     .then(user=>{
@@ -16,10 +16,11 @@ router.get('/user/:id',requireLogin,(req,res)=>{
              if(err){
                  return res.status(422).json({error:err})
              }
-             res.json({user,posts})
+             res.render('myprofile.ejs',{mypost:posts,user:user});
          })
     }).catch(err=>{
-        return res.status(404).json({error:"User not found"})
+        req.flash('message','User not found'),
+        res.redirect("/allpost");
     })
 })
 

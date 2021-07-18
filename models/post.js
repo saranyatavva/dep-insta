@@ -25,6 +25,6 @@ comments:[{text:NotEmptyString,postedBy:{type:ObjectId,ref:"User"}}]
 
 
 
-})
+},{timestamps:true})
 mongoose.model("Post",postSchema)
 

@@ -46,7 +46,7 @@ router.get('/allpost',requireLogin,(req,res)=>{
     .populate("comments.postedBy","_id name")
     .sort('-createdAt')
     .then((posts)=>{
-        res.render('home.ejs',{message:req.flash('message'),posts:posts});
+        res.render('home.ejs',{message:req.flash('message'),posts:posts,user:req.user});
     }).catch(err=>{
         console.log(err)
     })
@@ -57,7 +57,7 @@ router.get('/mypost',requireLogin,(req,res)=>{
     Post.find({postedBy:req.user._id})
     .populate("postedBy","_id name")
     .then(mypost=>{
-        res.render('myprofile.ejs',{message:req.flash('message'),mypost:mypost});
+        res.render('myprofile.ejs',{message:req.flash('message'),mypost:mypost,user:req.user});
     })
     .catch(err=>{
         console.log(err)
@@ -116,9 +116,8 @@ router.post('/comment',requireLogin,(req,res)=>{
     })
 })
 
-router.post('/deletepost',requireLogin,(req,res)=>{
-    console.log(req.body);
-    Post.findOne({_id:req.body.postId})
+router.post('/deletepost/:postId',requireLogin,(req,res)=>{
+    Post.findOne({_id:req.params.postId})
     .populate("postedBy","_id")
     .exec((err,post)=>{
         if(err || !post){
@@ -127,10 +126,15 @@ router.post('/deletepost',requireLogin,(req,res)=>{
         if(post.postedBy._id.toString() === req.user._id.toString()){
               post.remove()
               .then(result=>{
-                  res.json(result)
+                req.flash('message','Deleted Successfully'),
+                res.redirect("/allpost");
               }).catch(err=>{
                   console.log(err)
               })
+        }
+        else{
+            req.flash('message','You cannot delete the post of others'),
+            res.redirect("/allpost");
         }
     })
 })

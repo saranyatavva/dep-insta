@@ -38,14 +38,17 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname,'public/css')));
 app.use(express.static(path.join(__dirname,'public/js')));
 app.use(express.static(path.join(__dirname,'public/photos')));
+app.use(express.static(path.join(__dirname,'public/css/profile.css')));
 
 
 require('./models/user');
 require('./models/post');
 require('./models/conversation');
+require('./models/message');
 app.use(require('./routes/auth'));
 app.use(require('./routes/user'));
 app.use(require('./routes/post'));
+app.use(require('./routes/message'));
 app.use(require('./routes/conversation'));
 
 
@@ -53,8 +56,15 @@ app.use(require('./routes/conversation'));
 
 
 
-port=process.env.PORT ||8000
+port=process.env.PORT ||7000
 
-app.listen(port,()=>{
-    console.log("listening")
-});
+server=app.listen(port);
+
+
+const io = require("socket.io")(server)
+
+//listen on every connection
+io.on('connection', (socket) => {
+	console.log('New user connected')})
+
+	

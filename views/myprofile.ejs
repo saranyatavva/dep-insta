@@ -23,7 +23,7 @@
     
                 <div class="profile-user-settings">
     
-                    <h1 class="profile-user-name"><%= mypost[0].postedBy.name%></h1>
+                    <h1 class="profile-user-name"><%=user.name%></h1>
     
                     <button class="btn profile-edit-btn">Edit Profile</button>
     
@@ -34,9 +34,9 @@
                 <div class="profile-stats">
     
                     <ul>
-                        <li><span class="profile-stat-count">164</span> posts</li>
-                        <li><span class="profile-stat-count">188</span> followers</li>
-                        <li><span class="profile-stat-count">206</span> following</li>
+                        <li><span class="profile-stat-count"><%= mypost.length %></span> Posts</li>
+                        <li><span class="profile-stat-count">188</span> Followers</li>
+                        <li><span class="profile-stat-count">206</span> Following</li>
                     </ul>
     
                 </div>
