@@ -27,15 +27,23 @@ padding: 0 2rem;
 .btn {
 display: inline-block;
 font: inherit;
-background: none;
+background:#4d90fe;
 border: none;
-color: inherit;
-padding: 0;
+color: white;
+padding: 4px 9px;
 cursor: pointer;
+margin-left:20px;
 }
 
-.btn:focus {
-outline: 0.5rem auto #4d90fe;
+
+
+.hello{
+    display: inline-block;
+font: inherit;
+background:none;
+border: none;
+padding: 0;
+cursor: pointer;
 }
 
 .visually-hidden {
@@ -90,14 +98,47 @@ font-size: 2rem;
 font-weight: 400;
 }
 
+
 .profile-edit-btn {
 font-size: 1rem;
 line-height: 1.8;
 border: 0.1rem solid #dbdbdb;
 border-radius: 0.3rem;
 padding: 0 2.4rem;
-margin-left: 2rem;
+margin-left: 1rem;
 }
+
+
+button .msg-follow,
+button .msg-following,
+button .msg-unfollow{
+  display: none;
+
+}
+
+button .msg-follow{
+  display: inline;
+}
+
+button.following .msg-follow{
+  display: none;
+}
+
+button.following .msg-following{
+  display: inline;
+}
+
+button.following:not(.wait):hover .msg-following{
+  display: none;
+}
+
+button.following:not(.wait):hover .msg-unfollow{
+  display: inline;
+}
+
+
+
+
 
 .profile-settings-btn {
 font-size: 1.4rem;

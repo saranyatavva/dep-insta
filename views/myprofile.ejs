@@ -12,7 +12,10 @@
     <header>
 
         <div class="container">
-    
+            <% if(message.length >0){%>
+                <div class="alert alert-info" role="alert"><%= message %></div>
+            
+                <% }%>
             <div class="profile">
     
                 <div class="profile-image">
@@ -35,8 +38,8 @@
     
                     <ul>
                         <li><span class="profile-stat-count"><%= mypost.length %></span> Posts</li>
-                        <li><span class="profile-stat-count">188</span> Followers</li>
-                        <li><span class="profile-stat-count">206</span> Following</li>
+                        <li><span class="profile-stat-count"><%= user.followers.length %></span> Followers</li>
+                        <li><span class="profile-stat-count"><%= user.following.length %></span> Following</li>
                     </ul>
     
                 </div>

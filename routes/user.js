@@ -6,26 +6,9 @@ const Post =  mongoose.model("Post")
 const User = mongoose.model("User")
 
 
-router.get('/:id',requireLogin,(req,res)=>{
-    User.findOne({_id:req.params.id})
-    .select("-password")
-    .then(user=>{
-         Post.find({postedBy:req.params.id})
-         .populate("postedBy","_id name")
-         .exec((err,posts)=>{
-             if(err){
-                 return res.status(422).json({error:err})
-             }
-             res.render('myprofile.ejs',{mypost:posts,user:user});
-         })
-    }).catch(err=>{
-        req.flash('message','User not found'),
-        res.redirect("/allpost");
-    })
-})
 
 
-router.put('/follow',requireLogin,(req,res)=>{
+router.post('/follow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.followId,{
         $push:{followers:req.user._id}
     },{
@@ -37,8 +20,10 @@ router.put('/follow',requireLogin,(req,res)=>{
       User.findByIdAndUpdate(req.user._id,{
           $push:{following:req.body.followId}
           
-      },{new:true}).select("-password").then(result=>{
-          res.json(result)
+      },{new:true}).then(result=>{
+       
+      
+          console.log(result)
       }).catch(err=>{
           return res.status(422).json({error:err})
       })
@@ -46,7 +31,7 @@ router.put('/follow',requireLogin,(req,res)=>{
     }
     )
 })
-router.put('/unfollow',requireLogin,(req,res)=>{
+router.post('/unfollow',requireLogin,(req,res)=>{
     User.findByIdAndUpdate(req.body.unfollowId,{
         $pull:{followers:req.user._id}
     },{
@@ -59,7 +44,8 @@ router.put('/unfollow',requireLogin,(req,res)=>{
           $pull:{following:req.body.unfollowId}
           
       },{new:true}).select("-password").then(result=>{
-          res.json(result)
+        
+        console.log(result)
       }).catch(err=>{
           return res.status(422).json({error:err})
       })
@@ -82,16 +68,16 @@ router.put('/updatepic',requireLogin,(req,res)=>{
 
 
 router.post('/search-users',(req,res)=>{
-    let userPattern = new RegExp("^"+req.body.query)
-    User.find({email:{$regex:userPattern}})
-    .select("_id email")
-    .then(user=>{
-        res.json({user})
-    }).catch(err=>{
-        console.log(err)
+    let userPattern = new RegExp("^"+req.body.sbox)
+    {
+        User.find({name:{$regex:userPattern}})
+    .select("_id name")
+    .then(users=>{
+        res.render('search',{users:users});
     })
 
-})
+    
+}})
 
 
 

@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="profile.css">
 </head>
 <body>
-    <header>
-
-        <div class="container">
     
+    <header>
+         
+        <div class="container">
+        
             <div class="profile">
     
                 <div class="profile-image">
@@ -24,10 +25,17 @@
                 <div class="profile-user-settings">
     
                     <h1 class="profile-user-name"><%=user.name%></h1>
+                    
+                    <% if(me.following.includes( user._id.toString() )){ %>
+                    <button type="submit" class="btn btn-primary" onclick="unfollow('<%= user._id%>')">Unfollow</button>
+                    <% } else { %>
+                      <button type="submit" class="btn btn-primary" onclick="hey('<%= user._id%>')">Follow</button>
+                      <% } %>
+
+                    
+                   
     
-                    <button class="btn profile-edit-btn">Edit Profile</button>
-    
-                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+                    <button class="hello profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
     
                 </div>
     
@@ -35,8 +43,8 @@
     
                     <ul>
                         <li><span class="profile-stat-count"><%= mypost.length %></span> Posts</li>
-                        <li><span class="profile-stat-count">188</span> Followers</li>
-                        <li><span class="profile-stat-count">206</span> Following</li>
+                        <li><span class="profile-stat-count"><%= user.followers.length %></span> Followers</li>
+                        <li><span class="profile-stat-count"><%= user.following.length %></span> Following</li>
                     </ul>
     
                 </div>
@@ -147,11 +155,57 @@
     
     </main> 
 
-    <script type="text/javascript">
-    $('#pop').click(function(){
-        $("#staticBackdrop").modal('show')
-        
-    })
-    </script>
+
+
+   
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </body>
 </html>
+
+<script type="text/javascript">
+    // $('#pop').click(function(){
+    //     $("#staticBackdrop").modal('show')
+        
+    // })
+
+    $('button').click(function(){
+  var $this = $(this);
+  if($this.is('.follow')){
+    $this.toggleClass('following')
+    $this='following'
+  }
+ 
+  if($this.is('.following')){
+    $this.addClass('wait');
+    $this='follow'
+  }
+}).on('mouseleave',function(){
+  $(this).removeClass('wait');
+})
+
+function hey(followId) {
+    $.ajax({
+        url: '/follow',
+        dataType: 'json',
+        type: 'POST',
+        contentType: 'application/json',
+        data:JSON.stringify({followId: followId}),
+        success: function (result) {
+           console.log(result)
+        }
+    });
+    }
+    function unfollow(unfollowId) {
+    $.ajax({
+        url: '/unfollow',
+        dataType: 'json',
+        type: 'POST',
+        contentType: 'application/json',
+        data:JSON.stringify({unfollowId: unfollowId}),
+        success: function (result) {
+           console.log(result)
+        }
+    });
+    }
+    </script>

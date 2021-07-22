@@ -8,9 +8,20 @@ const {secret} =require('../key');
 const requireLogin=require('../middleware/requireLogin');
 const { request, response } = require('express');
 
-// router.get('/protected',requireLogin,(req,res)=>{
-//     res.send("hello user")
-// })
+
+
+
+
+router.get("/password-reset/:userId/:token", (req, res) => {
+    res.render('enter.ejs',{message:req.flash('message')});
+})
+router.get("/password", (req, res) => {
+    res.render('reset.ejs',{message:req.flash('message')});
+})
+
+
+
+
 
 router.get('/signup',function(req,res){
     

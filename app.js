@@ -5,9 +5,12 @@ const path=require('path');
 var session=require('express-session');
 const flash=require('connect-flash');
 const cookieParser=require('cookie-parser');
+const moment = require('moment');
+moment().format();
+require("dotenv").config(); 
 
 const app = express();
-const url="mongodb+srv://akhila:w76HsipHYG6q1qah@cluster0.ii9if.mongodb.net/instaclone"
+const url=process.env.DB;
 
 
 
@@ -16,6 +19,8 @@ mongoose.connection.on('connected',()=>{console.log("connected to mongodb")});
 mongoose.connection.on('error',(err)=>{console.log("error",err)});
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
 
 app.use(express.json());
 app.use(session({
@@ -45,11 +50,14 @@ require('./models/user');
 require('./models/post');
 require('./models/conversation');
 require('./models/message');
+require('./models/token');
 app.use(require('./routes/auth'));
+app.use(require('./routes/passwordReset'));
 app.use(require('./routes/user'));
 app.use(require('./routes/post'));
 app.use(require('./routes/message'));
 app.use(require('./routes/conversation'));
+
 
 
 

@@ -3,6 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const requireLogin  = require('../middleware/requireLogin')
 const Post =  mongoose.model("Post")
+const User = mongoose.model("User")
+const moment = require('moment');
 
 
 
@@ -41,16 +43,32 @@ router.get('/hello',(req,res)=>{
 
 
 router.get('/allpost',requireLogin,(req,res)=>{
+    
     Post.find()
     .populate("postedBy","_id name")
     .populate("comments.postedBy","_id name")
     .sort('-createdAt')
     .then((posts)=>{
-        res.render('home.ejs',{message:req.flash('message'),posts:posts,user:req.user});
+        res.render('home.ejs',{message:req.flash('message'),posts:posts,user:req.user,moment:moment});
     }).catch(err=>{
         console.log(err)
     })
     
+})
+
+router.get('/getsubpost',requireLogin,(req,res)=>{
+
+    // if postedBy in following
+    Post.find({postedBy:{$in:req.user.following}})
+    .populate("postedBy","_id name")
+    .populate("comments.postedBy","_id name")
+    .sort('-createdAt')
+    .then(posts=>{
+        res.render('ourpost.ejs',{message:req.flash('message'),posts:posts,moment:moment});
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 })
 
 router.get('/mypost',requireLogin,(req,res)=>{
@@ -63,6 +81,50 @@ router.get('/mypost',requireLogin,(req,res)=>{
         console.log(err)
     })
 })
+
+router.get('/:id',requireLogin,(req,res)=>{
+   
+    User.findOne({_id:req.params.id})
+    .select("-password")
+    .then(user=>{
+    
+         Post.find({postedBy:req.params.id})
+         .populate("postedBy","_id name")
+         .exec((err,posts)=>{
+            
+             if(err){
+                 return res.status(422).json({error:err})
+             }
+             if(user._id.toString()===req.user._id.toString()){
+                res.render('myprofile.ejs',{mypost:posts,user:user,message:req.flash('message')});
+            }
+            else{
+                
+                res.render('profile.ejs',{mypost:posts,user:user,me:req.user,message:req.flash('message')});
+            }
+            
+         })
+    }).catch(err=>{
+        
+        res.redirect("/allpost");
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/like',requireLogin,(req,res)=>{
     Post.findByIdAndUpdate(req.body.id,{
         $push:{likes:req.user._id}

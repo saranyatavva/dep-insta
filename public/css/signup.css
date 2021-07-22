@@ -65,6 +65,14 @@
         border: 1px solid #efefef;
       }
 
+      .eye{
+        position: absolute;
+        margin: -6px;
+        margin-left: -25px;
+        margin-top: 9px;
+
+      }
+
       /* label intial position*/
 
       label {

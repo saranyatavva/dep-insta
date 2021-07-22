@@ -44,12 +44,13 @@
               />
             </a>
             <div>
-              <form class="form-inline my-2 my-lg-0">
+              <form class="form-inline my-2 my-lg-0" method="post" action="/search-users" >
                 <input
                   class="form-control mr-sm-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  name="sbox"
                 />
               </form>
             </div>
@@ -92,7 +93,7 @@
                   </a>
                 </li>
                 <li class="list-inline-item ml-2">
-                  <a href="#" class="link-menu">
+                  <a href="/getsubpost" class="link-menu">
                     <svg
                       width="1.5em"
                       height="1.5em"

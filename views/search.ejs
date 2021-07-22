@@ -1,0 +1,20 @@
+<%- include('./static/navbar') %>
+<div class="container">
+    <div class="col-3">
+        
+      </div>
+      <div class="col-6">
+        
+        <ul class="list list-group">
+            
+            <% users.forEach(function(p){ %>
+            <li class="list-group-item"><%=p.name %></li>
+            <% }); %>
+          </ul>
+        
+    </div>
+      <div class="col-3">
+        
+    </div>
+
+</div>
