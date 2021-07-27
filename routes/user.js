@@ -22,8 +22,9 @@ router.post('/follow',requireLogin,(req,res)=>{
           
       },{new:true}).then(result=>{
        
-      
-          console.log(result)
+        req.flash('message','Followed successfully'),
+        res.redirect('/:followId')
+          
       }).catch(err=>{
           return res.status(422).json({error:err})
       })

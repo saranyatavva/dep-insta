@@ -6,12 +6,16 @@ var session=require('express-session');
 const flash=require('connect-flash');
 const cookieParser=require('cookie-parser');
 const moment = require('moment');
+
+
 moment().format();
 require("dotenv").config(); 
 
+
+
 const app = express();
 const url=process.env.DB;
-
+const http = require('http').createServer(app)
 
 
 mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true})
@@ -31,12 +35,22 @@ app.use(session({
 }))
 app.use(cookieParser());
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(flash())
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
+
+
+
+
+
+
+
+
 
 
 
@@ -48,7 +62,6 @@ app.use(express.static(path.join(__dirname,'public/css/profile.css')));
 
 require('./models/user');
 require('./models/post');
-require('./models/conversation');
 require('./models/message');
 require('./models/token');
 app.use(require('./routes/auth'));
@@ -56,7 +69,7 @@ app.use(require('./routes/passwordReset'));
 app.use(require('./routes/user'));
 app.use(require('./routes/post'));
 app.use(require('./routes/message'));
-app.use(require('./routes/conversation'));
+
 
 
 
@@ -66,13 +79,15 @@ app.use(require('./routes/conversation'));
 
 port=process.env.PORT ||7000
 
-server=app.listen(port);
 
+http.listen(port,()=>{console.log("connected")})
 
-const io = require("socket.io")(server)
-
-//listen on every connection
-io.on('connection', (socket) => {
-	console.log('New user connected')})
-
-	
+const io=require('socket.io')(http)	
+io.on('connection',(socket)=>{console.log("heyy connected")
+      socket.on('message',(msg)=>{socket.broadcast.emit('message',msg)})
+    
+    
+    
+    
+    
+    })

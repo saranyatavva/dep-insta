@@ -35,9 +35,8 @@ router.post('/createpost',requireLogin,(req,res)=>{
 
 
 
-router.get('/hello',(req,res)=>{
-    console.log(req.cookies.jwt);
-    console.log(req.cookies.user);
+router.get('/hello',requireLogin,(req,res)=>{
+    res.render('chat.ejs', { user: JSON.stringify(req.user.name) })
 })
 
 
